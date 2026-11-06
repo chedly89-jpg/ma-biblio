@@ -32,6 +32,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<Livre>> _futurLivres;
+  int _index = 0;
 
   @override
   void initState() {
@@ -67,48 +68,51 @@ class _HomePageState extends State<HomePage> {
         }
 
         final livres = snapshot.data!;
+        final ecrans = [
+          CatalogueScreen(livres: livres),
+          GalerieScreen(livres: livres),
+          MaListeScreen(livres: livres),
+        ];
 
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('MaBiblio'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.checklist),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MaListeScreen(livres: livres),
+          appBar: _index == 0
+              ? AppBar(
+                  title: const Text('MaBiblio'),
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.settings),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ParametresScreen(onReinitialiser: _recharger),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                  ],
+                )
+              : null,
+          body: ecrans[_index],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _index,
+            onTap: (index) => setState(() => _index = index),
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.list),
+                label: 'Catalogue',
               ),
-              IconButton(
-                icon: const Icon(Icons.grid_on),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GalerieScreen(livres: livres),
-                    ),
-                  );
-                },
+              BottomNavigationBarItem(
+                icon: Icon(Icons.grid_on),
+                label: 'Galerie',
               ),
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ParametresScreen(onReinitialiser: _recharger),
-                    ),
-                  );
-                },
+              BottomNavigationBarItem(
+                icon: Icon(Icons.checklist),
+                label: 'Ma liste',
               ),
             ],
           ),
-          body: CatalogueScreen(livres: livres),
         );
       },
     );
