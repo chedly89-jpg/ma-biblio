@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../services/livre_service.dart';
+
 class ParametresScreen extends StatelessWidget {
-  const ParametresScreen({super.key});
+  final VoidCallback onReinitialiser;
+
+  const ParametresScreen({super.key, required this.onReinitialiser});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +46,42 @@ class ParametresScreen extends StatelessWidget {
               leading: Icon(Icons.info),
               title: Text('À propos'),
               subtitle: Text('MaBiblio version 1.0\nTP Listes et grilles'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.restart_alt),
+              title: const Text('Réinitialiser ma bibliothèque'),
+              onTap: () async {
+                final confirme = await showDialog<bool>(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Réinitialiser'),
+                    content: const Text(
+                      'Supprimer vos livres lus et favoris ?',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, false),
+                        child: const Text('Annuler'),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context, true),
+                        child: const Text('Confirmer'),
+                      ),
+                    ],
+                  ),
+                );
+                if (confirme == true) {
+                  await reinitialiserLivres();
+                  onReinitialiser();
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Bibliothèque réinitialisée'),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
           ],
         ).toList(),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 import '../models/livre.dart';
+import '../services/livre_service.dart';
 
 class DetailScreen extends StatefulWidget {
   final Livre livre;
+  final List<Livre> livres;
 
-  const DetailScreen({super.key, required this.livre});
+  const DetailScreen({super.key, required this.livre, required this.livres});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -66,6 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   TextButton.icon(
                     onPressed: () {
                       setState(() => livre.favori = !livre.favori);
+                      sauvegarderLivres(widget.livres);
                     },
                     icon: Icon(
                       livre.favori ? Icons.favorite : Icons.favorite_border,
@@ -75,6 +78,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   TextButton.icon(
                     onPressed: () {
                       setState(() => livre.lu = !livre.lu);
+                      sauvegarderLivres(widget.livres);
                     },
                     icon: Icon(
                       livre.lu

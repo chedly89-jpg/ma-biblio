@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../data/livres_data.dart';
 import '../models/livre.dart';
+import '../services/livre_service.dart';
 
 class MaListeScreen extends StatefulWidget {
-  const MaListeScreen({super.key});
+  final List<Livre> livres;
+
+  const MaListeScreen({super.key, required this.livres});
 
   @override
   State<MaListeScreen> createState() => _MaListeScreenState();
@@ -37,7 +39,7 @@ class _MaListeScreenState extends State<MaListeScreen> {
   }
 
   List<Livre> get _livresFiltres {
-    return livres.where((l) {
+    return widget.livres.where((l) {
       if (_genres[l.genre] != true) return false;
       if (_nouveautesSeulement && !l.nouveaute) return false;
       return true;
@@ -75,7 +77,7 @@ class _MaListeScreenState extends State<MaListeScreen> {
             },
           ),
           ..._genres.keys.map((genre) {
-            final nombre = livres.where((l) => l.genre == genre).length;
+            final nombre = widget.livres.where((l) => l.genre == genre).length;
             return CheckboxListTile(
               secondary: Icon(_icones[genre]),
               title: Text(genre),
@@ -108,6 +110,7 @@ class _MaListeScreenState extends State<MaListeScreen> {
                 value: livre.lu,
                 onChanged: (valeur) {
                   setState(() => livre.lu = valeur ?? false);
+                  sauvegarderLivres(widget.livres);
                 },
               );
             },
