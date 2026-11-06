@@ -8,76 +8,62 @@ class CatalogueScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final nouveautes = livres.where((livre) => livre.nouveaute).toList();
+    final nouveautes = livres.where((l) => l.nouveaute).toList();
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Catalogue')),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              'Nouveautés',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Nouveautés',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-
-          // Liste horizontale des nouveautés.
-          SizedBox(
-            height: 160,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: nouveautes.length,
-              itemBuilder: (context, index) {
-                final livre = nouveautes[index];
-
-                return Container(
-                  width: 110,
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: livre.couleur,
-                    borderRadius: BorderRadius.circular(12),
+        ),
+        SizedBox(
+          height: 160,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            itemCount: nouveautes.length,
+            itemBuilder: (context, index) {
+              final livre = nouveautes[index];
+              return Container(
+                width: 110,
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                padding: const EdgeInsets.all(8),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: livre.couleur,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  livre.titre,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    livre.titre,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
-
-          const Padding(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              'Tout le catalogue',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+        ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 16, 8),
+          child: Text(
+            'Tout le catalogue',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-
-          // ListView.builder construit les éléments à la demande.
-          // Pour 1 000 livres, il évite de créer toutes les lignes
-          // immédiatement, ce qui économise des ressources.
-          Expanded(
-            child: ListView.separated(
-              itemCount: livres.length,
-              itemBuilder: (context, index) {
-                return livreTile(livres[index]);
-              },
-              separatorBuilder: (context, index) {
-                return const Divider(indent: 72);
-              },
-            ),
+        ),
+        Expanded(
+          child: ListView.separated(
+            itemCount: livres.length,
+            itemBuilder: (context, index) => livreTile(livres[index]),
+            separatorBuilder: (context, index) => const Divider(indent: 72),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'data/livres_data.dart';
+import 'screens/catalogue_screen.dart';
 import 'screens/parametres_screen.dart';
-import 'widgets/livre_tile.dart';
 
 void main() => runApp(const MaBiblioApp());
 
@@ -47,8 +46,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      // Q1.7 : affichage temporaire des 3 premiers livres
-      body: Column(children: livres.take(3).map((l) => livreTile(l)).toList()),
+      body: const CatalogueScreen(),
     );
   }
 }
