@@ -5,44 +5,53 @@ class ParametresScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tiles = [
-      ListTile(
-        leading: const Icon(Icons.person),
-        title: const Text('Mon profil'),
-        subtitle: const Text('Nom, e-mail, mot de passe'),
-        trailing: const Icon(Icons.chevron_right),
-        onTap: () {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text('Profil sélectionné')));
-        },
-      ),
-      ListTile(
-        leading: const Icon(Icons.notifications),
-        title: const Text('Notifications'),
-        tileColor: Colors.blue.shade50,
-        iconColor: Colors.blue,
-        textColor: Colors.blue.shade900,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      ),
-      const ListTile(
-        leading: Icon(Icons.language),
-        title: Text('Langue'),
-        subtitle: Text('Français'),
-        trailing: Icon(Icons.chevron_right),
-      ),
-      const ListTile(
-        leading: Icon(Icons.info),
-        title: Text('À propos'),
-        subtitle: Text('Application MaBiblio\nVersion 1.0'),
-      ),
-    ];
-
     return Scaffold(
       appBar: AppBar(title: const Text('Paramètres')),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: ListTile.divideTiles(context: context, tiles: tiles).toList(),
+      body: Column(
+        children: [
+          // Q1.1 + Q1.2 : Mon profil avec onTap et SnackBar
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Mon profil'),
+            subtitle: const Text('Nom, e-mail, mot de passe'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Profil sélectionné')),
+              );
+            },
+          ),
+
+          // Q1.3 + Q1.5 : Notifications personnalisé
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notifications'),
+            tileColor: Colors.indigo.shade50,
+            iconColor: Colors.indigo,
+            textColor: Colors.indigo.shade900,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+
+          // Q1.3 : Langue
+          const ListTile(
+            leading: Icon(Icons.language),
+            title: Text('Langue'),
+            subtitle: Text('Français'),
+          ),
+
+          // Q1.3 + Q1.4 : À propos
+          const ListTile(
+            leading: Icon(Icons.info),
+            title: Text('À propos'),
+            subtitle: Text('MaBiblio version 1.0\nTP Listes et grilles'),
+            // Q1.4 : tester successivement (une à la fois) :
+            // dense: true,        // lignes plus compactes (hauteur et texte réduits)
+            // isThreeLine: true,  // réserve de la place pour un subtitle sur 2 lignes
+            // enabled: false,     // tuile grisée, plus de réaction au clic
+          ),
+        ],
       ),
     );
   }

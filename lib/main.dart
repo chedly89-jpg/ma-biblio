@@ -1,15 +1,10 @@
-import 'widgets/livre_tile.dart';
-
 import 'package:flutter/material.dart';
 
-import 'models/livres.dart';
 import 'data/livres_data.dart';
 import 'screens/parametres_screen.dart';
-import 'screens/catalogue_screen.dart';
+import 'widgets/livre_tile.dart';
 
-void main() {
-  runApp(const MaBiblioApp());
-}
+void main() => runApp(const MaBiblioApp());
 
 class MaBiblioApp extends StatelessWidget {
   const MaBiblioApp({super.key});
@@ -19,7 +14,7 @@ class MaBiblioApp extends StatelessWidget {
     return MaterialApp(
       title: 'MaBiblio',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.indigo),
       home: const HomePage(),
     );
   }
@@ -40,43 +35,20 @@ class _HomePageState extends State<HomePage> {
         title: const Text('MaBiblio'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.library_books),
-            tooltip: 'Catalogue',
+            icon: const Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const CatalogueScreen(),
+                  builder: (context) => const ParametresScreen(),
                 ),
               );
             },
           ),
         ],
       ),
-      body: ListView(
-        children: livres.take(3).map((livre) {
-          return livreTile(livre);
-        }).toList(),
-      ),
+      // Q1.7 : affichage temporaire des 3 premiers livres
+      body: Column(children: livres.take(3).map((l) => livreTile(l)).toList()),
     );
   }
-}
-
-Widget livreTile(Livres livre) {
-  return ListTile(
-    leading: CircleAvatar(
-      backgroundColor: livre.couleur,
-      child: Text(livre.titre[0], style: const TextStyle(color: Colors.white)),
-    ),
-    title: Text(livre.titre),
-    subtitle: Text('${livre.auteur} – ${livre.annee}'),
-    trailing: Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(livre.note.toString()),
-        const SizedBox(width: 4),
-        const Icon(Icons.star, color: Colors.amber),
-      ],
-    ),
-  );
 }
