@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'screens/ma_liste_screen.dart';
 import 'screens/catalogue_screen.dart';
+import 'screens/galerie_screen.dart';
+import 'screens/ma_liste_screen.dart';
 import 'screens/parametres_screen.dart';
 
 void main() => runApp(const MaBiblioApp());
@@ -40,6 +41,15 @@ class _HomePageState extends State<HomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const MaListeScreen()),
+              );
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.grid_on),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const GalerieScreen()),
               );
             },
           ),
